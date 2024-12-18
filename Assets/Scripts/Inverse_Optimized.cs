@@ -12,6 +12,8 @@ public class Inverse_Optimized : MonoBehaviour
     private float[] theta;
 
     public Transform target;
+    public Transform spiderman;
+
 
     private float costFunction;
 
@@ -62,6 +64,7 @@ public class Inverse_Optimized : MonoBehaviour
                 theta[i] -= alpha * gradient[i];
             }
 
+
             Vector3[] newPosition = endFactorFunction(theta);
 
             // Actualiza las posiciones de las articulaciones
@@ -74,7 +77,7 @@ public class Inverse_Optimized : MonoBehaviour
         //Cuando ya hemos cogido al objetivo (Animacion agarrar spiderman)
         else
         {
-
+            capture();
         }
 
         //Actualizar la distacia de endFactor con el objeto
@@ -102,27 +105,6 @@ public class Inverse_Optimized : MonoBehaviour
             LineRenderers[i].SetPosition(1, Joints[i + 1].position);
         }
     }
-
-    //Vector3[] endFactorFunction(float[] theta)
-    //{
-    //    Vector3[] positions = new Vector3[Joints.Count];
-    //    positions[0] = Joints[0].position; // La primera posición es fija
-
-    //    //Rotaciones acumulativas
-    //    Quaternion rotations = Quaternion.identity;
-
-    //    // Calcular posiciones de las articulaciones
-    //    for (int i = 1; i < Joints.Count; i++)
-    //    {
-    //        //añadimos la rotacion del joint anterior
-    //        rotations *= Quaternion.AngleAxis(theta[i - 1], Vector3.up); // Rotación acumulativa
-
-    //        //la neuva posicion = posicion anterior + la rotacion acumulada + la distancia
-    //        positions[i] = positions[i - 1] + rotations * Distances[i - 1]; // Nueva posición
-    //    }
-
-    //    return positions;
-    //}
 
     Vector3[] endFactorFunction(float[] theta)
     {
@@ -193,4 +175,9 @@ public class Inverse_Optimized : MonoBehaviour
     }
 
 
+
+    void capture()
+    {
+        spiderman.GetComponent<Animator>().enabled = false;
+    }
 }
